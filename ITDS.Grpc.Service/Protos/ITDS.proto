@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "ITDS.Grpc.Service";
+
+package ITDS;
+
+message Movie {
+	string plot = 1;
+	string title = 2;
+	int32 year = 3;
+	string rated = 4;
+
+	message Award {
+		int32 wins = 1;
+		int32 nominations = 2;
+		string text = 3;
+	}
+
+	Award awards = 5;
+	repeated string genres = 6;
+}
+
+message MovieByYearRequest {
+  int32 year_lower_band = 1;
+  int32 year_upper_band = 2;
+}
+
+message MovieByYearResponse {
+  string data = 1;
+}
+
+message MovieByYearStronglyTypedResponse {
+	repeated Movie movie = 1;
+}
+
+service ITDS {
+  rpc FilterMovieByYear (MovieByYearRequest) returns (MovieByYearResponse);
+  rpc FilterMovieByYearStronglyTyped (MovieByYearRequest) returns (MovieByYearStronglyTypedResponse);
+}
+
